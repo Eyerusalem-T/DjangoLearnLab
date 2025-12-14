@@ -1,0 +1,56 @@
+{% extends 'blog/base.html' %} {% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+<h2>{{ object.title }}</h2>
+<p>{{ object.content }}</p>
+<small>By {{ object.author }} | {{ object.published_date }}</small>
+
+{% if user == object.author %}
+<hr />
+<a href="{% url 'post-update' object.pk %}">✏ Edit</a> |
+<a href="{% url 'post-delete' object.pk %}">🗑 Delete</a>
+{% endif %}
+
+<hr />
+<a href="{% url 'post-list' %}">← Back to Posts</a>
+{% endblock %}
+
+<hr />
+<h3>Comments</h3>
+
+{% if user.is_authenticated %}
+<form action="{% url 'comment-add' object.pk %}" method="post">
+  {% csrf_token %} {{ comment_form.as_p }}
+  <button type="submit">Add Comment</button>
+</form>
+{% else %}
+<p><a href="{% url 'login' %}">Login</a> to add a comment.</p>
+{% endif %}
+
+<hr />
+
+{% for comment in object.comments.all %}
+<div
+  style="
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+  "
+>
+  <p>{{ comment.content }}</p>
+  <small>By {{ comment.author }} | {{ comment.created_at }}</small>
+  {% if user == comment.author %}
+  <br />
+  <a href="{% url 'comment-edit' comment.pk %}">✏ Edit</a> |
+  <a href="{% url 'comment-delete' comment.pk %}">🗑 Delete</a>
+  {% endif %}
+</div>
+{% empty %}
+<p>No comments yet.</p>
+{% endfor %}
+
+<hr />
+<p>
+  Tags: {% for tag in object.tags.all %}
+  <a href="{% url 'posts-by-tag' tag.name %}">{{ tag.name }}</a>{% if not
+  forloop.last %}, {% endif %} {% empty %} No tags {% endfor %}
+</p>

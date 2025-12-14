@@ -1,0 +1,5 @@
+{% extends 'blog/base.html' %} {% block title %}Home{% endblock %} {% block
+content %}
+<h2>Welcome to Django Blog!</h2>
+<p><a href="{% url 'post-list' %}">View all posts</a></p>
+{% endblock %}
