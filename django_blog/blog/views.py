@@ -5,9 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, ProfileUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import (
-    ListView, DetailView, CreateView, UpdateView, DeleteView
-)
+from django.urls import reverse
 from django.urls import reverse_lazy
 from .models import Post, Comment
 from .forms import CommentForm
@@ -134,7 +132,34 @@ def search_view(request):
         Q(tags__name__icontains=query)
     ).distinct()
     return render(request, 'blog/search_results.html', {'query': query, 'results': results})
+    
 
 def posts_by_tag(request, tag_name):
     posts = Post.objects.filter(tags__name__iexact=tag_name)
     return render(request, 'blog/tagged_posts.html', {'posts': posts, 'tag_name': tag_name})
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/comment_form.html'
+
+    def form_valid(self, form):
+        post = get_object_or_404(Post, pk=self.kwargs['post_id'])
+        form.instance.post = post
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.object.post.pk})
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    template_name = 'blog/comment_confirm_delete.html'
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.object.post.pk})
