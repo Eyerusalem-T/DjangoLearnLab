@@ -1,11 +1,13 @@
-{% extends 'blog/base.html' %} {% block title %}Posts Tagged "{{ tag_name }}"{%
-endblock %} {% block content %}
-<h2>Posts Tagged "{{ tag_name }}"</h2>
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h2>Posts tagged with "{{ tag_name }}"</h2>
 
 {% for post in posts %}
-<h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h3>
-<p>{{ post.content|truncatechars:150 }}</p>
-<hr />
+  <h3>
+    <a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a>
+  </h3>
 {% empty %}
-<p>No posts found for this tag.</p>
-{% endfor %} {% endblock %}
+  <p>No posts found.</p>
+{% endfor %}
+{% endblock %}
