@@ -6,7 +6,7 @@ from .views import (
     PostCreateView, PostUpdateView, PostDeleteView
 
 )
-from .views import HomeView
+
 from .views import (
     CommentCreateView,
     CommentUpdateView,
@@ -36,4 +36,5 @@ urlpatterns = [
     path('comments/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment-edit'),
     path('comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
 ]
+
 
