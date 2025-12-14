@@ -22,6 +22,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Post title'}),
+            'content': forms.Textarea(attrs={'rows': 6}),
 
 class CommentForm(forms.ModelForm):
     content = forms.CharField(
@@ -46,4 +49,5 @@ class CommentForm(forms.ModelForm):
         if len(content.strip()) < 3:
             raise forms.ValidationError("Comment must be at least 3 characters long.")
         return content
+
 
