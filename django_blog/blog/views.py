@@ -142,7 +142,11 @@ def search_view(request):
 
 def posts_by_tag(request, tag_name):
     posts = Post.objects.filter(tags__name__iexact=tag_name)
-    return render(request, 'blog/tagged_posts.html', {'posts': posts, 'tag_name': tag_name})
+    return render(
+        request,
+        'blog/tagged_posts.html',
+        {'posts': posts, 'tag_name': tag_name}
+    )
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
@@ -182,6 +186,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('post-detail', kwargs={'pk': self.object.post.pk})
+
 
 
 
