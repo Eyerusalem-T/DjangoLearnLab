@@ -12,6 +12,7 @@ from .views import (
     CommentUpdateView,
     CommentDeleteView,
 )
+from .views import search_view, posts_by_tag
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(
@@ -35,6 +36,9 @@ urlpatterns = [
     path('posts/<int:post_id>/comments/new/', CommentCreateView.as_view(), name='comment-add'),
     path('comments/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment-edit'),
     path('comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
+    path('search/', search_view, name='search'),
+    path('tags/<str:tag_name>/', posts_by_tag, name='posts-by-tag'),
 ]
+
 
 
