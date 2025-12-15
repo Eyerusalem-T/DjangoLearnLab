@@ -1,6 +1,0 @@
-"# LibraryProject" 
-"A Django project for managing library operations." 
-"" 
-"## Project Setup" 
-"1. Created using: django-admin startproject LibraryProject" 
-"2. Development server: python manage.py runserver" 
