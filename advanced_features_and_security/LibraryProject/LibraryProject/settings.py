@@ -128,30 +128,19 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Redirect all HTTP requests to HTTPS
+# ==========================
+# HTTPS & SECURITY SETTINGS
+# ==========================
+
 SECURE_SSL_REDIRECT = True
 
-# HTTP Strict Transport Security (HSTS)
-# Browsers will only use HTTPS for the next 1 year (31536000 seconds)
 SECURE_HSTS_SECONDS = 31536000
-
-# Apply HSTS to all subdomains
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-
-# Allow the site to be included in browsers' HSTS preload list
 SECURE_HSTS_PRELOAD = True
 
-# Ensure session cookies are sent only over HTTPS
 SESSION_COOKIE_SECURE = True
-
-# Ensure CSRF cookies are sent only over HTTPS
 CSRF_COOKIE_SECURE = True
 
-# Prevent clickjacking by denying iframe embedding
 X_FRAME_OPTIONS = "DENY"
-
-# Prevent MIME-type sniffing
 SECURE_CONTENT_TYPE_NOSNIFF = True
-
-# Enable browser XSS filtering
 SECURE_BROWSER_XSS_FILTER = True
